@@ -1,8 +1,48 @@
+# CMake and native builds
 build/
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+compile_commands.json
+*.o
+*.obj
+*.exe
+*.out
+
+# Python
 __pycache__/
-.pytest_cache/
 *.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
 .venv/
-results/*.csv
-results/*.png
-!results/.gitkeep
+venv/
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Generated models and profiler output
+*.onnx
+*.engine
+*.plan
+*.nsys-rep
+*.ncu-rep
+
+# Ignore unpublished result artifacts by default
+results/*
+
+# Keep the reviewed, published evidence
+!results/README.md
+!results/RESULTS.md
+!results/ONNX_RESULTS.md
+!results/benchmark_results.csv
+!results/onnx_runtime_cuda_benchmark.csv
+!results/onnx_runtime_environment.json
+!results/latency.png
+!results/speedup.png
+!results/onnx_runtime_comparison.png
