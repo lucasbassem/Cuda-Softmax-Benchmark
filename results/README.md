@@ -1,12 +1,26 @@
-# Benchmark results
+# Published results
 
-This directory is populated by `python scripts/run_benchmarks.py`.
+This directory contains the raw data, methodology, reports, and figures used by
+the root README.
 
-Expected generated files:
+## CUDA softmax
 
-- `benchmark_results.csv`: CPU, basic CUDA, and optimized CUDA measurements plus accuracy metrics and hardware metadata.
-- `pytorch_results.csv`: PyTorch reference timing and accuracy measurements.
-- `latency.png`: latency comparison chart.
-- `speedup.png`: optimized-versus-basic CUDA speedup chart.
+- [Raw measurements](benchmark_results.csv)
+- [Detailed report](RESULTS.md)
+- [Latency chart](latency.png)
+- [Speedup chart](speedup.png)
 
-No GPU measurements are committed by default because results must reflect the actual hardware, driver, CUDA version, compiler configuration, and benchmark settings used.
+## ONNX Runtime CUDA
+
+- [Raw measurements](onnx_runtime_cuda_benchmark.csv)
+- [Detailed report](ONNX_RESULTS.md)
+- [Latency chart](onnx_runtime_comparison.png)
+
+## Reproduction policy
+
+Published performance claims must include raw data, benchmark configuration,
+hardware identification, numerical validation, and an explanation of whether
+timings include data transfer.
+
+Generated model binaries, temporary profiler outputs, and unpublished local
+benchmark files are intentionally ignored.
