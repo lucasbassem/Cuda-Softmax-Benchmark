@@ -8,7 +8,9 @@ A focused GPU-programming project that implements and benchmarks row-wise softma
 
 A separate PyTorch implementation provides an external framework reference and its own CPU/GPU timing baseline.
 
-> **Measurement integrity:** this repository does not contain invented GPU numbers. Run the suite on an NVIDIA GPU to generate hardware-specific CSV files and plots in `results/`.
+> Measurement integrity: all published performance values are accompanied by
+> raw result files, benchmark methodology, numerical validation, and the
+> hardware/software environment available from the benchmark run.
 
 ## Why this is more than vector addition
 
@@ -235,6 +237,25 @@ python python/pytorch_reference.py --device cpu --sizes 32x257 --iterations 5
 ```
 
 The script compares explicit stable softmax against `torch.softmax`, records maximum errors, benchmarks with CUDA events on GPU, and writes `results/pytorch_results.csv`.
+
+## ONNX Runtime CUDA inference benchmark
+
+A pretrained ResNet-18 model was exported from PyTorch to ONNX and benchmarked with ONNX Runtime's CUDA Execution Provider.
+
+| Batch | PyTorch median | ONNX median | ONNX speedup | PyTorch images/s | ONNX images/s | Max abs. error |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1 | 3.858 ms | 2.105 ms | **1.833x** | 259.2 | 475.1 | 0.000006 |
+| 8 | 9.184 ms | 9.117 ms | 1.007x | 871.1 | 877.5 | 0.000008 |
+| 32 | 26.023 ms | 26.266 ms | 0.991x | 1229.7 | 1218.3 | 0.000013 |
+
+At batch size 1, ONNX Runtime reduced median latency by **45.4%** and improved throughput by **1.83x**. Performance was effectively tied at batch size 8, while PyTorch was approximately 0.9% faster at batch size 32.
+
+```bash
+python python/onnx_runtime_benchmark.py --output-dir results --batch-sizes 1 8 32 --warmup 10 --iterations 50
+```
+
+See [`results/ONNX_RESULTS.md`](results/ONNX_RESULTS.md) for methodology and interpretation.
+
 
 ## Tests
 
