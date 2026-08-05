@@ -238,24 +238,26 @@ python python/pytorch_reference.py --device cpu --sizes 32x257 --iterations 5
 
 The script compares explicit stable softmax against `torch.softmax`, records maximum errors, benchmarks with CUDA events on GPU, and writes `results/pytorch_results.csv`.
 
-## ONNX Runtime CUDA inference benchmark
+## Published CUDA softmax results
 
-A pretrained ResNet-18 model was exported from PyTorch to ONNX and benchmarked with ONNX Runtime's CUDA Execution Provider.
+The benchmark compares a serial C++ reference, a basic CUDA kernel, and an
+optimized shared-memory reduction kernel on an NVIDIA Tesla T4.
 
-| Batch | PyTorch median | ONNX median | ONNX speedup | PyTorch images/s | ONNX images/s | Max abs. error |
-|---:|---:|---:|---:|---:|---:|---:|
-| 1 | 3.858 ms | 2.105 ms | **1.833x** | 259.2 | 475.1 | 0.000006 |
-| 8 | 9.184 ms | 9.117 ms | 1.007x | 871.1 | 877.5 | 0.000008 |
-| 32 | 26.023 ms | 26.266 ms | 0.991x | 1229.7 | 1218.3 | 0.000013 |
+| Shape | CPU | Basic CUDA | Optimized CUDA | Optimized vs CPU | Optimized vs Basic |
+|---|---:|---:|---:|---:|---:|
+| 1024 × 128 | 1.189 ms | 0.147 ms | 0.040 ms | 30.06× | 3.72× |
+| 1024 × 512 | 4.911 ms | 0.626 ms | 0.050 ms | 97.60× | **12.44×** |
+| 4096 × 1024 | 40.537 ms | 1.888 ms | 0.193 ms | 210.06× | 9.78× |
+| 8192 × 2048 | 162.082 ms | 4.820 ms | 0.702 ms | **230.88×** | 6.87× |
 
-At batch size 1, ONNX Runtime reduced median latency by **45.4%** and improved throughput by **1.83x**. Performance was effectively tied at batch size 8, while PyTorch was approximately 0.9% faster at batch size 32.
+Across the suite, the optimized implementation achieved up to **230.88×**
+speedup over the serial CPU reference and up to **12.44×** over the basic CUDA
+kernel. Optimized-kernel maximum absolute error remained below **3.6e-7**.
 
-```bash
-python python/onnx_runtime_benchmark.py --output-dir results --batch-sizes 1 8 32 --warmup 10 --iterations 50
-```
+The raw measurements, methodology, correctness results, and figures are in
+[`results/CUDA_RESULTS.md`](results/CUDA_RESULTS.md).
 
-See [`results/ONNX_RESULTS.md`](results/ONNX_RESULTS.md) for methodology and interpretation.
-
+![CUDA softmax speedup](results/cuda_softmax_speedup.png)
 
 ## Tests
 

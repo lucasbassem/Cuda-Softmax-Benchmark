@@ -1,0 +1,5 @@
+gpu,cuda_runtime,cuda_driver,compute_capability,fast_math,threads_per_block,warmup_iterations,benchmark_iterations,rows,cols,elements,cpu_ms,basic_cuda_ms,optimized_cuda_ms,basic_speedup_vs_cpu,optimized_speedup_vs_cpu,optimized_speedup_vs_basic,basic_max_abs_error,basic_max_rel_error,basic_max_row_sum_error,optimized_max_abs_error,optimized_max_rel_error,optimized_max_row_sum_error
+Tesla T4,12.8,13,7.5,True,256,20,100,1024,128,131072,1.1892618,0.147292481,0.03956512,8.074151486,30.05833946,3.722786167,6.56e-07,2.06e-06,7.27e-07,1.79e-07,1.79e-06,2.42e-07
+Tesla T4,12.8,13,7.5,True,256,20,100,1024,512,524288,4.9110198,0.626071663,0.050316162,7.844181571,97.60322716,12.44275471,8.94e-07,2.75e-06,1.21e-06,2.38e-07,2e-06,2.56e-07
+Tesla T4,12.8,13,7.5,True,256,20,100,4096,1024,4194304,40.5373114,1.888049622,0.192983685,21.47046928,210.0556402,9.783467582,2.74e-06,4.67e-06,3.04e-06,1.79e-07,2.05e-06,2.71e-07
+Tesla T4,12.8,13,7.5,True,256,20,100,8192,2048,16777216,162.0815395,4.819724121,0.70201088,33.6288002,230.8818057,6.865597474,6.26e-06,8.17e-06,6.54e-06,3.58e-07,2.13e-06,3.49e-07
